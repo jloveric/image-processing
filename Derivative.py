@@ -6,32 +6,32 @@ wave limited (Total Variation Diminishing) derivatives.
 '''
 def computeDerivatives(image) :
 
-    xSize = image.shape[0]
-    ySize = image.shape[1]
+    xSize = image.shape[1]
+    ySize = image.shape[0]
 
     #compute dx
     dxc = np.arange(1, xSize-1)
     dxl = np.arange(0, xSize-2)
     dxr = np.arange(2, xSize)
 
-    dL = image[dxc,:]-image[dxl,:]
-    dR = image[dxr,:]-image[dxc,:]
+    dL = image[:,dxc]-image[:,dxl]
+    dR = image[:,dxr]-image[:,dxc]
     dc = 0.5*(dL+dR)
 
     dI = minmod(dL, dR, dc)
-    dI = dI[:,1:(ySize-1)]
+    dI = dI[1:(ySize-1),:]
 
     #compute dy
     dyc = np.arange(1, ySize-1)
     dyl = np.arange(0, ySize-2)
     dyr = np.arange(2, ySize)
 
-    dL = image[:,dyc]-image[:,dyl]
-    dR = image[:,dyr]-image[:,dyc]
+    dL = image[dyc,:]-image[dyl,:]
+    dR = image[dyr,:]-image[dyc,:]
     dc = 0.5*(dL+dR)
 
     dJ = minmod(dL, dR, dc)
-    dJ = dJ[1:(xSize-1),:]
+    dJ = dJ[:,1:(xSize-1)]
 
     return dI, dJ
 
