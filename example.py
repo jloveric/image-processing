@@ -16,7 +16,7 @@ h5f = h5py.File('data.h5','r')
 b = h5f['dataset_1'][:]
 h5f.close()
 
-X0 = b.reshape((28,28))
+X0 = np.flip(b.reshape((28,28)))
 
 #dXg, dYg = computeDerivatives(X0)
 dX, dY = streamVectors(X0)
@@ -28,6 +28,6 @@ print('dX',dX.shape)
 
 #plt.pcolor(dX)
 plt.pcolor(X0[1:27,1:27])
-plt.quiver(dXg, dYg, units='width', scale=2000)
+#plt.quiver(dXg, dYg, units='width', scale=2000)
 plt.quiver(dX, dY, units='width', scale=2000)
 plt.show()
