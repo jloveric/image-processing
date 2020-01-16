@@ -6,7 +6,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="snovalleyai_image_processing",
-    version="1.0.3",
+    version="1.0.4",
     author="John Loverich",
     author_email="john.loverich@gmail.com",
     description="Research tool in image processing",
