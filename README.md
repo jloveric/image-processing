@@ -11,7 +11,7 @@ pipenv install snovalleyai-image-processing
 # Loading
 
 ```python
-from snovalleyai_image_processing.Derivative import *
+from snovalleyai_image_processing import *
 ```
 
 # Example output
