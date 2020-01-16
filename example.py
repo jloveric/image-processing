@@ -1,7 +1,7 @@
 from sklearn.datasets import fetch_openml
 import matplotlib.pyplot as plt
-from Derivative import *
-from Path import *
+from snovalleyai_image_processing.Derivative import *
+from snovalleyai_image_processing.Path import *
 import h5py
 
 genData = False

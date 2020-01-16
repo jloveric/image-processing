@@ -1,7 +1,7 @@
 '''
 Compute the path based on stream vectors
 '''
-from .Derivative import *
+from . Derivative import *
 
 
 '''
