@@ -19,7 +19,7 @@ h5f.close()
 
 X0 = np.flip(b.reshape((28,28)))
 
-#dXg, dYg = computeDerivatives(X0)
+dXg, dYg = computeDerivativesCentral(X0)
 dX, dY = streamVectorsCentral(X0)
 
 d = gradientMagnitudeCentral(X0)
@@ -32,15 +32,26 @@ gradList = sortAbs(X0)
 
 #using the first element in the dictionary follow the streamvectors
 pos = gradList[0]['pos']
+
+#Try and parametrize the image starting at the given position.
 path = Path(dX, dY, pos[0], pos[1])
 
 path = np.array(path)
 
-print('path', path)
-
-#plt.pcolor(dX)
-plt.plot(path[:,0],path[:,1],color='red')
+plt.subplot(2,2,1)
 plt.pcolor(X0[1:27,1:27])
-#plt.quiver(dXg, dYg, units='width', scale=2000)
+plt.title('original image from mnist')
+
+plt.subplot(2,2,2)
+plt.plot(path[:,0],path[:,1],color='red')
+plt.title('parameterization')
+
+plt.subplot(2,2,3)
 plt.quiver(dX, dY, units='width', scale=2000)
+plt.title('stream vectors')
+
+plt.subplot(2,2,4)
+plt.quiver(dXg, dYg, units='width', scale=2000)
+plt.title('gradient vectors')
+
 plt.show()

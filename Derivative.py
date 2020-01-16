@@ -68,26 +68,9 @@ def computeDerivativeLS(image) :
     print('Not implemented yet')
     pass
 
-def streamVectorsCentral(image) :
-    return streamVectors(image, computeDerivativesCentral)
-
-def streamVectorsTVD(image) :
-    return streamVectors(image, computeDerivativesTVD)
-
-def streamVectors(image, func) :
-    dX, dY = func(image)
-    return dY, -dX
-
-def gradientMagnitudeCentral(image) :
-    return gradientMagnitude(image, computeDerivativesCentral)
-
-def gradientMagnitudeTVD(image) :
-    return gradientMagnitude(image, computeDerivativesTVD)
-
-def gradientMagnitude(image, func) :
-    dX, dY = computeDerivativesTVD(image)
-    return np.sqrt(dX*dX+dY*dY)
-
+'''
+minmod TVD limiter.  Picks the smallest of the left, right and central difference.
+'''
 def minmod(a, b, c) :
 
   xl = np.where((np.absolute(a) < np.absolute(b)) & (np.absolute(a) < np.absolute(c)), a, 0)
@@ -95,3 +78,29 @@ def minmod(a, b, c) :
   xc = np.where((np.absolute(c) <= np.absolute(a)) & (np.absolute(c) <= np.absolute(b)), c, 0)
   
   return xl+xr+xc
+
+'''
+generic functions
+'''
+def streamVectors(image, func) :
+    dX, dY = func(image)
+    return dY, -dX
+
+def gradientMagnitude(image, func) :
+    dX, dY = computeDerivativesTVD(image)
+    return np.sqrt(dX*dX+dY*dY)
+
+'''
+Specialization of the functions
+'''
+def streamVectorsCentral(image) :
+    return streamVectors(image, computeDerivativesCentral)
+
+def streamVectorsTVD(image) :
+    return streamVectors(image, computeDerivativesTVD)
+
+def gradientMagnitudeCentral(image) :
+    return gradientMagnitude(image, computeDerivativesCentral)
+
+def gradientMagnitudeTVD(image) :
+    return gradientMagnitude(image, computeDerivativesTVD)

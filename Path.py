@@ -3,6 +3,11 @@ Compute the path based on stream vectors
 '''
 from Derivative import *
 
+
+'''
+Compute a parameterization that follows the stream vectors
+from a give starting point.
+'''
 def Path(dX, dY, x0, y0, pathSet=set()) :
 
     done=False
@@ -17,15 +22,13 @@ def Path(dX, dY, x0, y0, pathSet=set()) :
     oldLen = len(path)
     while done==False:
 
-        print('pathSet', pathSet)
-
         #We need a unique value so we can test if the path overlaps.
         pathSet.add(str(x)+','+str(y))
 
         #If the path intersects itself we need to stop 
         if oldLen == len(pathSet) :
             path.append([x,y])
-            print('x,y',x,y)
+            
             done = True
             break
 
@@ -50,8 +53,6 @@ def nextBest(dX, dY, x, y, lastX, lastY) :
     dx = dX[y,x]
     dy = dY[y,x]
 
-    print('dxdy',dx,dy)
-
     d = np.sqrt(dX*dX+dY*dY)
 
     #these are the non corner values
@@ -63,12 +64,14 @@ def nextBest(dX, dY, x, y, lastX, lastY) :
     oy = y
 
     if dx==0 and dy==0 :
+
+        #Construct an array with all the neighbors and make a choice based on which has the largest gradient magnitude.
         a = [{'d' : d[y+1,x], 'p' : [x,y+1] }, {'d' : d[y-1,x],'p': [x,y-1]}, {'d': d[y,x+1],'p':[y,x+1]}, {'d':d[y,x-1],'p':[y,x-1]}] 
         a.sort(key = lambda val : val['d'], reverse=True )
         
         #Try something else we didn't try
         result = a[0]
-        print('a[0]',a[0]['p'])
+        
         if a[0]['p'][0]==lastX and a[0]['p'][1]==lastY :
             result = a[1]
 
@@ -82,11 +85,9 @@ def nextBest(dX, dY, x, y, lastX, lastY) :
         oy = y+1
         if abs(dx)>abs(dy) :
             tx = x + 1
-        elif abs(dy)>abs(dx) :
-            ty = y + 1
         else :
-            tx = ox
-            ty = oy
+            ty = y + 1
+        
         print('in 1')
     elif dx>=0 and dy<=0 :
         ox = x+1
@@ -95,9 +96,6 @@ def nextBest(dX, dY, x, y, lastX, lastY) :
             tx = x + 1
         else :
             ty = y - 1
-        #else :
-        #    tx=ox
-        #    ty=oy
 
         print('in 2',dx,dy)
     elif dx<=0 and dy>=0 :
@@ -105,12 +103,9 @@ def nextBest(dX, dY, x, y, lastX, lastY) :
         oy = y+1
         if abs(dx)>abs(dy) :
             tx = x - 1
-        elif abs(dy)>abs(dx):
-            ty = y + 1
         else :
-            tx=ox
-            ty=oy
-
+            ty = y + 1
+        
         print('in 3',dx,dy,d[oy,ox],d[tx,tx])
     elif dx<=0 and dy<=0 :
         ox = x-1
@@ -137,7 +132,8 @@ def nextBest(dX, dY, x, y, lastX, lastY) :
 
 '''
 Compute the absolute gradient for every cell and store
-in the list with the largest gradient first.
+in the list with the largest gradient first.  This is used
+to compute the starting point for computing stream vectors.
 '''
 def sortAbs(image) :
 
