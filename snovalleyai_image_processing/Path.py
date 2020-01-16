@@ -1,7 +1,7 @@
 '''
 Compute the path based on stream vectors
 '''
-from Derivative import *
+from .Derivative import *
 
 
 '''
@@ -17,7 +17,6 @@ def Path(dX, dY, x0, y0, pathSet=set()) :
     lastX = x
     lastY = y
 
-    #pathSet = set()
     path = []
     oldLen = len(path)
     while done==False:
@@ -48,6 +47,9 @@ def Path(dX, dY, x0, y0, pathSet=set()) :
     
     return path
 
+'''
+Find the next best cell in the path
+'''
 def nextBest(dX, dY, x, y, lastX, lastY) :
     
     dx = dX[y,x]
