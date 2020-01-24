@@ -24,26 +24,16 @@ dX, dY = streamVectorsCentral(X0)
 
 d = gradientMagnitudeCentral(X0)
 
-print('X0', X0.shape)
-print('dX',dX.shape)
-
-#Compute the location of the maximum gradients
-gradList = sortAbs(X0)
-
-#using the first element in the dictionary follow the streamvectors
-pos = gradList[0]['pos']
-
-#Try and parametrize the image starting at the given position.
-path = Path(dX, dY, pos[0], pos[1])
-
-path = np.array(path)
+pathData = PathData(d)
+maxPaths = 1
+pathList = pathData.constructPathList(X0, maxPaths)
 
 plt.subplot(2,2,1)
 plt.pcolor(X0[1:27,1:27])
 plt.title('original image from mnist')
 
 plt.subplot(2,2,2)
-plt.plot(path[:,0],path[:,1],color='red')
+plt.plot(pathList[0][:,0],pathList[0][:,1],color='red')
 plt.title('parameterization')
 
 plt.subplot(2,2,3)
