@@ -52,6 +52,8 @@ Find the next best cell in the path
 '''
 def nextBest(dX, dY, x, y, lastX, lastY) :
     
+    shape = dX.shape
+
     dx = dX[y,x]
     dy = dY[y,x]
 
@@ -68,7 +70,16 @@ def nextBest(dX, dY, x, y, lastX, lastY) :
     if dx==0 and dy==0 :
 
         #Construct an array with all the neighbors and make a choice based on which has the largest gradient magnitude.
-        a = [{'d' : d[y+1,x], 'p' : [x,y+1] }, {'d' : d[y-1,x],'p': [x,y-1]}, {'d': d[y,x+1],'p':[y,x+1]}, {'d':d[y,x-1],'p':[y,x-1]}] 
+        a = []
+        if y+1 < shape[0] :
+            a.append({'d' : d[y+1,x], 'p' : [x,y+1] })
+        if y-1>=0 :
+            a.append({'d' : d[y-1,x], 'p': [x,y-1]})
+        if x+1 < shape[1] :
+            a.append({'d': d[y,x+1], 'p' : [y,x+1]}) 
+        if x-1>=0 :
+            a.append({'d':d[y,x-1], 'p' : [y,x-1]}) 
+
         a.sort(key = lambda val : val['d'], reverse=True )
         
         #Try something else we didn't try
@@ -90,7 +101,7 @@ def nextBest(dX, dY, x, y, lastX, lastY) :
         else :
             ty = y + 1
         
-        print('in 1')
+        #print('in 1')
     elif dx>=0 and dy<=0 :
         ox = x+1
         oy = y-1
@@ -99,7 +110,7 @@ def nextBest(dX, dY, x, y, lastX, lastY) :
         else :
             ty = y - 1
 
-        print('in 2',dx,dy)
+        #print('in 2',dx,dy)
     elif dx<=0 and dy>=0 :
         ox = x-1
         oy = y+1
@@ -108,7 +119,7 @@ def nextBest(dX, dY, x, y, lastX, lastY) :
         else :
             ty = y + 1
         
-        print('in 3',dx,dy,d[oy,ox],d[tx,tx])
+        #print('in 3',dx,dy,d[oy,ox],d[tx,tx])
     elif dx<=0 and dy<=0 :
         ox = x-1
         oy = y-1
@@ -116,7 +127,7 @@ def nextBest(dX, dY, x, y, lastX, lastY) :
             tx = x - 1
         else :
             ty = y - 1
-        print('in 4')
+        #print('in 4')
 
     shape = dX.shape
     if ox>=shape[1] or ox<0 :
@@ -129,7 +140,7 @@ def nextBest(dX, dY, x, y, lastX, lastY) :
     if d[oy,ox] > d[ty,tx] :
         fx = ox
         fy = oy
-    print('fx,fy',fx,fy)
+    #print('fx,fy',fx,fy)
     return fx, fy
 
 '''
@@ -139,12 +150,12 @@ to compute the starting point for computing stream vectors.
 '''
 def sortAbs(image) :
 
-    d = gradientMagnitudeCentral(image)
+    d = gradientMagnitudeTVD(image)
     shape = d.shape
-
+    print('gradient mag.shape', shape)
     a = []
     for i in range(0, shape[0]) :
-        for j in range(0, shape[0]) :
+        for j in range(0, shape[1]) :
             a.append({'pos' : [j,i], 'd' : abs(d[i,j])})
 
     a.sort(key = lambda x : x['d'], reverse=True )
