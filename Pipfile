@@ -8,8 +8,9 @@ sklearn = "*"
 h5py = "*"
 matplotlib = "*"
 opencv-python = "*"
+pdepy = "*"
 
 [dev-packages]
 
 [requires]
-python_version = "3.7"
+python_version = "3"

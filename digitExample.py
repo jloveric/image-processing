@@ -19,10 +19,10 @@ h5f.close()
 
 X0 = np.flip(b.reshape((28,28)))
 
-dXg, dYg = computeDerivativesCentral(X0)
+dXg, dYg = compute_derivatives_central(X0)
 dX, dY = streamVectorsCentral(X0)
 
-d = gradientMagnitudeCentral(X0)
+d = gradient_magnitude_central(X0)
 
 pathData = PathData(d)
 maxPaths = 1

@@ -155,7 +155,7 @@ class PathData :
     '''
     def sortAbs(self, image) :
 
-        d = gradientMagnitudeTVD(image)
+        d = gradient_magnitude_tvd(image)
         shape = d.shape
         print('gradient mag.shape', shape)
         a = []
@@ -171,7 +171,7 @@ class PathData :
         
         #TODO These probably shouldn't be in here since we are duplicating work.
         dX, dY = streamVectorsCentral(X0)
-        d = gradientMagnitudeCentral(X0)
+        d = gradient_magnitude_central(X0)
 
         #Compute the location of the maximum gradients
         #pathData = PathData(d)
