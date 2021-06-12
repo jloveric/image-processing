@@ -12,20 +12,39 @@ import cv2
 img_path = './north-bend.jpg'
 img = cv2.imread(img_path, 0)
 img = np.flip(img)
+img = cv2.resize(img, (500, 500))
+
 
 for i in range(9) :
     plt.subplot(3, 3, i+1)
     
     plt.pcolor(img)
+    X0 = img
+    shape = X0.shape
+    mx = shape[0]
+    my = shape[1]
 
-    out = diffusion(img,niter=100)
+
+    dXg, dYg = compute_derivatives_central(X0)
+    dX, dY = stream_vectors_central(X0)
+
+    d = gradient_magnitude_central(X0)
+
+    pathData = PathData(d)
+
+    maxPaths = 100
+    pathList = pathData.constructPathList(X0, maxPaths)
+
+    for i in range(0, maxPaths):
+        plt.plot(pathList[i][:, 0], pathList[i][:, 1], color='red')
+
+    out = diffusion(img,niter=10)
     img = out
 
 plt.show()
 
 
 '''
-#X0 = cv2.resize(img, (int(732/4), int(1024/4)))
 X0 = cv2.resize(img, (500, 500))
 shape = X0.shape
 mx = shape[0]

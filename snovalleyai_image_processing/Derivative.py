@@ -1,10 +1,8 @@
 import numpy as np
 from typing import Tuple
 
-# TODO: Use snake_case
 
-
-def compute_derivatives_tvd(image: np.array) -> Tuple[np.array, np.array]:
+def compute_derivatives_tvd(image: np.ndarray) -> Tuple[np.ndarray, np.ndarray]:
     '''
     Derivative using total variation diminishing (TVD) approach.
     https://en.wikipedia.org/wiki/Total_variation_diminishing
@@ -40,7 +38,7 @@ def compute_derivatives_tvd(image: np.array) -> Tuple[np.array, np.array]:
     return dI, dJ
 
 
-def compute_derivatives_central(image: np.array) -> Tuple[np.array, np.array]:
+def compute_derivatives_central(image: np.ndarray) -> Tuple[np.ndarray, np.ndarray]:
     '''
     Derivative computed by a central difference
     Second order accurate all around.
@@ -73,7 +71,7 @@ def compute_derivative_ls(image):
     pass
 
 
-def minmod(a: np.array, b: np.array, c: np.array) -> np.array:
+def minmod(a: np.ndarray, b: np.ndarray, c: np.ndarray) -> np.ndarray:
     '''
     minmod TVD limiter.  Picks the smallest of the left, right and central difference.
     '''
@@ -87,27 +85,27 @@ def minmod(a: np.array, b: np.array, c: np.array) -> np.array:
     return xl+xr+xc
 
 
-def stream_vectors(image: np.array, func) -> Tuple[np.array, np.array]:
+def stream_vectors(image: np.ndarray, func) -> Tuple[np.ndarray, np.ndarray]:
     dX, dY = func(image)
     return dY, -dX
 
 
-def gradient_magnitude(image: np.array, func) -> np.array:
+def gradient_magnitude(image: np.ndarray, func) -> np.ndarray:
     dX, dY = compute_derivatives_tvd(image)
     return np.sqrt(dX*dX+dY*dY)
 
 
-def stream_vectors_central(image: np.array) -> np.array:
+def stream_vectors_central(image: np.ndarray) -> np.ndarray:
     return stream_vectors(image, compute_derivatives_central)
 
 
-def stream_vectors_tvd(image: np.array) -> np.array:
+def stream_vectors_tvd(image: np.ndarray) -> np.ndarray:
     return stream_vectors(image, compute_derivatives_tvd)
 
 
-def gradient_magnitude_central(image: np.array) -> np.array:
+def gradient_magnitude_central(image: np.ndarray) -> np.ndarray:
     return gradient_magnitude(image, compute_derivatives_central)
 
 
-def gradient_magnitude_tvd(image: np.array) -> np.array:
+def gradient_magnitude_tvd(image: np.ndarray) -> np.ndarray:
     return gradient_magnitude(image, compute_derivatives_tvd)
